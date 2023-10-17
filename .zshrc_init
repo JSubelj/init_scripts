@@ -1,0 +1,12 @@
+. ~/.scripts/.aliases
+. ~/.scripts/.zshrc_ext
+
+export PATH=$PATH:$HOME/.scripts/bin:
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+# neki !! se executa takoj
+setopt no_hist_verify
+
+# za šumnike
+export LANG=en_US.UTF-8
