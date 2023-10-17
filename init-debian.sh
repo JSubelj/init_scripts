@@ -23,7 +23,7 @@ get_email(){
             if [ "$is_correct" == "N" ] || [ "$is_correct" == "n" ]; then
                 read -p "Input your email: " email_address
             fi
-        } else
+        else
             read -p "Input your email: " email_address
         fi
     fi
