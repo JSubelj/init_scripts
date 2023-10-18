@@ -2,7 +2,7 @@
 set -e
 
 share_dir="/share"
-host_share_dir="/share"
+host_share_dir="/nfs/share"
 ip_host="10.6.10.95"
 read -p "Enter the folder to install the script (default: $PWD): " install_folder
 # Use the default folder if the user doesn't provide one
