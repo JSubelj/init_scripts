@@ -93,7 +93,7 @@ configure_unattended_upgrades() {
 install_and_configure_zsh() {
     echo "To install oh my zsh run this command:"
     echo ""
-    echo "sh -c \"$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)\""
+    echo 'sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"'
     echo ""
 }
 
