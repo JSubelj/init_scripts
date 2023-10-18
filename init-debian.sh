@@ -134,11 +134,11 @@ select opt in "${options[@]}"; do
         3) configure_unattended_upgrades;;
         4) install_and_configure_zsh;;
         5) install_rcs;;
-	    6) enable_nfs_share;;
-        8) undo_fstab
-        9) undo_postfix_main.cf
-        10) undo_50unattended-upgrades
-        11) exit 0;;
+        6) enable_nfs_share;;
+        8) undo_fstab;;
+        9) undo_postfix_main.cf;;
+        10) undo_50unattended-upgrades;;
+	11) exit 0;;
         7) 
             install_packages
             configure_email
