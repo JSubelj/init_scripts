@@ -92,7 +92,7 @@ configure_unattended_upgrades() {
 # Function to install and configure zsh
 install_and_configure_zsh() {
     read -p "If you want to continue using the script select No when it prompts you for switching to zsh. Press enter to continue..."
-    NO_INTERACTIVE=true sh -c "$(curl -fsSL https://raw.githubusercontent.com/subtlepseudonym/oh-my-zsh/feature/install-noninteractive/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     echo ""
 }
 
