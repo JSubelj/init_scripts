@@ -133,7 +133,6 @@ install_rcs() {
 
     echo "EMAIL='$email_address'" >> $install_folder/.scripts/.zshrc_init
     echo ". $install_folder/.scripts/.zshrc_init" >> $install_folder/.zshrc
-    . $install_folder/.zshrc
     echo "Script completed successfully."
     echo ""
 }
