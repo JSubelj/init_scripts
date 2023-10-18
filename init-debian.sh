@@ -124,6 +124,7 @@ enable_nfs_share(){
 
 # Function to complete the installation
 install_rcs() {
+    get_email
     echo "If you want to add scripts that are in your path, add them to .scripts/bin"
     echo "If you want additional rc commands to run, add them to ~/.script/.zshrc_ext"
 
