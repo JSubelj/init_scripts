@@ -143,7 +143,7 @@ select opt in "${options[@]}"; do
             install_packages
             configure_email
             configure_unattended_upgrades
-	        enable_nfs_share
+	    enable_nfs_share
             install_and_configure_zsh
             install_rcs
             exit 0;;
