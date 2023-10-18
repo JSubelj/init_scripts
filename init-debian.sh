@@ -48,9 +48,9 @@ install_packages() {
 # Function to configure email
 configure_email() {
     get_email
-    $sudo_prefix cp /etc/postfix/main.cf $install_folder/.scripts/old
     read -p "Select Internet Site and enter your hostname. Press enter to continue..."
     $sudo_prefix apt install libsasl2-modules postfix mailutils
+    $sudo_prefix cp /etc/postfix/main.cf $install_folder/.scripts/old
     read -p "Input valid gmail sender email: " email_sender
     read -p "Generate app password and post it (https://security.google.com/settings/security/apppasswords): " app_password_email
     $sudo_prefix sh -c "echo '[smtp.gmail.com]:587 $email_sender:$app_password_email' > /etc/postfix/sasl/sasl_passwd"
