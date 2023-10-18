@@ -91,8 +91,9 @@ configure_unattended_upgrades() {
 
 # Function to install and configure zsh
 install_and_configure_zsh() {
-    read -p "If you want to continue using the script select No when it prompts you for switching to zsh. Press enter to continue..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    echo "To install oh my zsh run this command:"
+    echo ""
+    echo "sh -c \"$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)\""
     echo ""
 }
 
@@ -175,8 +176,8 @@ select opt in "${options[@]}"; do
             configure_email
             configure_unattended_upgrades
             enable_nfs_share
-            install_and_configure_zsh
             install_rcs
+            install_and_configure_zsh
             exit 0;;
         8) undo_fstab;;
         9) undo_postfix_main.cf;;
