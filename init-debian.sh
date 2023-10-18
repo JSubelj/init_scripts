@@ -27,12 +27,16 @@ get_email(){
             read -p "Input your email: " email_address
         fi
     fi
+    echo "Getting email done"
+    echo ""
 }
 
 # Function to install necessary packages
 install_packages() {
     sudo apt update
     sudo apt install -y vim sudo zsh git curl
+    echo "Package install done"
+    echo ""
 }
 
 # Function to configure email
@@ -56,6 +60,7 @@ configure_email() {
     sudo sh -c "echo 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' >> /etc/postfix/main.cf"
     sudo systemctl restart postfix
     echo "Mail config succeeded" | mail -s "Mail config successful" $email_address
+    echo ""
 }
 
 # Function to configure unattended upgrades
@@ -75,36 +80,39 @@ configure_unattended_upgrades() {
     echo "If you want to change the time (default 6.00) of the upgrade, change the file"
     echo "'/lib/systemd/system/apt-daily-upgrade.timer'"
     echo "And run: 'systemctl daemon-reload && systemctl restart apt-daily-upgrade.timer'"
+    echo ""
 }
 
 # Function to install and configure zsh
 install_and_configure_zsh() {
     read "If you want to continue using the script select No when it prompts you for switching to zsh. Press enter to continue..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo ""
 }
 
 enable_nfs_share(){
     read -p "Check NFS share (y/N)?" check_nfs
     if [ "$check_nfs" == "y" ] || [ "$check_nfs" == "Y" ]; then
-	if [ -d "$share_dir" ] && [ -f "$share_dir/permanent.txt" ]; then
-		echo "Share is mounted correctly"
-	else
-   		if sudo cat /proc/1/environ | tr \\0 \\n | grep -q "container=lxc"; then
+    if [ -d "$share_dir" ] && [ -f "$share_dir/permanent.txt" ]; then
+        echo "Share is mounted correctly"
+    else
+           if sudo cat /proc/1/environ | tr \\0 \\n | grep -q "container=lxc"; then
             echo "Container is CT"
             echo "Share is not mounted correctly"
-			echo "On the host, run 'pct set <id-ct> -mp0 $host_share_dir,mp=$share_dir'"
-	
+            echo "On the host, run 'pct set <id-ct> -mp0 $host_share_dir,mp=$share_dir'"
+    
         else
             sudo cp /etc/fstab $install_folder/.scripts/old
-			echo "Container is VM"
+            echo "Container is VM"
             sudo apt install nfs-common
             sudo mkdir -p $share_dir
             sudo sh -c "echo '$ip_host:$host_share_dir $share_dir nfs defaults 0 0' >> /etc/fstab"
             sudo systemctl daemon-reload
             sudo mount -a
-        	fi
-    	fi
+            fi
+        fi
     fi
+    echo ""
 }
 
 # Function to complete the installation
@@ -120,13 +128,34 @@ install_rcs() {
     echo ". $install_folder/.scripts/.zshrc_init" >> $install_folder/.zshrc
     . $install_folder/.zshrc
     echo "Script completed successfully."
+    echo ""
+}
+
+undo_fstab(){
+    if [ -f "$install_folder/.scripts/old/fstab" ]; then
+        sudo cp $install_folder/.scripts/old/fstab /etc/fstab
+        sudo systemctl daemon-reload
+        sudo mount -a
+    fi
+}
+
+undo_postfix_main(){
+    if [ -f "$install_folder/.scripts/old/main.cf" ]; then
+        sudo cp $install_folder/.scripts/old/main.cf /etc/postfix/main.cf
+    fi
+}
+
+undo_50unattended-upgrades(){
+    if [ -f "$install_folder/.scripts/old/50unattended-upgrades" ]; then
+        sudo cp $install_folder/.scripts/old/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades
+    fi
 }
 
 mkscriptsdir
 
 # Main script
-options=("Install Packages" "Configure Email" "Configure Unattended Upgrades" "Install and Configure Zsh" "Install_rcs" "Enable Nfs Share" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit");
-PS3="Select a function to run (or '7' to run all or '8' to exit): ";
+PS3="Select a function to run (or '7' to run all or '11' to exit): "
+options=("Install Packages" "Configure Email" "Configure Unattended Upgrades" "Install and Configure Zsh" "Install_rcs" "Enable Nfs Share" "Run all" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit")
 select opt in "${options[@]}"; do
     case $REPLY in
         1) install_packages;;
@@ -135,19 +164,19 @@ select opt in "${options[@]}"; do
         4) install_and_configure_zsh;;
         5) install_rcs;;
         6) enable_nfs_share;;
-        8) undo_fstab;;
-        9) undo_postfix_main.cf;;
-        10) undo_50unattended-upgrades;;
-	11) exit 0;;
         7) 
             install_packages
             configure_email
             configure_unattended_upgrades
-	    enable_nfs_share
+            enable_nfs_share
             install_and_configure_zsh
             install_rcs
             exit 0;;
+        8) undo_fstab;;
+        9) undo_postfix_main.cf;;
+        10) undo_50unattended-upgrades;;
+        11) exit 0;;
+        
         *) echo "Invalid option";;
     esac
 done
-
