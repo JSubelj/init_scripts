@@ -2,7 +2,7 @@
 
 To run script run 
 ```
-sh -c "$(wget https://raw.githubusercontent.com/JSubelj/init_scripts/main/init-debian.sh -O -)"
+wget https://raw.githubusercontent.com/JSubelj/init_scripts/main/init-debian.sh -O init-debian.sh && chmod +x ./init-debian.sh && ./init-debian.sh
 ```
 
 You may need sudo
