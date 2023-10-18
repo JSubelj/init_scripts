@@ -14,7 +14,7 @@ alias g="git"
 alias mkd="mkdir -pv" 
 alias cpuinfo="cat /proc/cpuinfo"
 alias cp="rsync -av --partial --inplace --append --progress"
-alias dc="docker-compose"
+alias dc="docker compose"
 
 # hdd test
 alias diskinfo="sudo smartctl -a"
