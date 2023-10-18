@@ -125,8 +125,8 @@ install_rcs() {
 mkscriptsdir
 
 # Main script
-PS3="Select a function to run (or '7' to run all or '8' to exit): "
-options=("Install Packages" "Configure Email" "Configure Unattended Upgrades" "Install and Configure Zsh" "Install_rcs" "Enable Nfs Share" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit")
+options=("Install Packages" "Configure Email" "Configure Unattended Upgrades" "Install and Configure Zsh" "Install_rcs" "Enable Nfs Share" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit");
+PS3="Select a function to run (or '7' to run all or '8' to exit): ";
 select opt in "${options[@]}"; do
     case $REPLY in
         1) install_packages;;
