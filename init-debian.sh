@@ -8,7 +8,7 @@ read -p "Enter the folder to install the script (default: $PWD): " install_folde
 # Use the default folder if the user doesn't provide one
 install_folder=${install_folder:-$PWD}
 
-if [ "$EUID" -ne 0 ]
+if [ "$EUID" -ne 0 ]; then
     sudo_prefix="sudo"
 else
     sudo_prefix=""
