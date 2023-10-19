@@ -13,8 +13,11 @@ alias ka="killall"
 alias g="git" 
 alias mkd="mkdir -pv" 
 alias cpuinfo="cat /proc/cpuinfo"
-alias cp="rsync -av --partial --inplace --append --progress"
+# because of oh my zsh
+unalias gcp
+alias cp="gcp"
 alias dc="docker compose"
 
 # hdd test
 alias diskinfo="sudo smartctl -a"
+
