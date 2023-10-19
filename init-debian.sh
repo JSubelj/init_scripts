@@ -40,7 +40,7 @@ get_email(){
 # Function to install necessary packages
 install_packages() {
     $sudo_prefix apt update
-    $sudo_prefix apt install -y vim sudo zsh git curl rsync
+    $sudo_prefix apt install -y vim sudo zsh git curl rsync gcp
     echo "Package install done"
     echo ""
 }
