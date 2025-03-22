@@ -21,3 +21,7 @@ alias dc="docker compose"
 # hdd test
 alias diskinfo="sudo smartctl -a"
 
+alias tp="trash-put"
+alias rm='echo "Use tp or trash-put (package trash-cli). For true rm use \\rm"; false'
+
+
