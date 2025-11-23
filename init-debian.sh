@@ -49,7 +49,7 @@ install_packages() {
 configure_email() {
     get_email
     read -p "Select Internet Site and enter your hostname. Press enter to continue..."
-    $sudo_prefix apt install libsasl2-modules postfix mailutils
+    $sudo_prefix apt install libsasl2-modules postfix mailutils postfix-pcre
     $sudo_prefix cp /etc/postfix/main.cf $install_folder/.scripts/old
     read -p "Input valid gmail sender email: " email_sender
     read -p "Generate app password and post it (https://security.google.com/settings/security/apppasswords): " app_password_email
@@ -64,6 +64,10 @@ configure_email() {
     $sudo_prefix sh -c "echo 'smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd' >> /etc/postfix/main.cf"
     $sudo_prefix sh -c "echo 'smtp_tls_security_level = encrypt' >> /etc/postfix/main.cf"
     $sudo_prefix sh -c "echo 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' >> /etc/postfix/main.cf"
+    $sudo_prefix sh -c "echo 'smtp_header_checks = pcre:/etc/postfix/smtp_header_checks' >> /etc/postfix/main.cf"
+    # to rename from username to hostname
+    $sudo_prefix sh -c "echo '/^From:.*/ REPLACE From: $HOSTNAME <$email_sender>' >> /etc/postfix/smtp_header_checks"
+    
     $sudo_prefix systemctl restart postfix
     echo "Mail config succeeded" | mail -s "Mail config successful" $email_address
     echo ""
