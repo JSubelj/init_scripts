@@ -14,8 +14,8 @@ alias g="git"
 alias mkd="mkdir -pv" 
 alias cpuinfo="cat /proc/cpuinfo"
 
-alias cp="advcp"
-alias mv="advmv"
+alias cp="/usr/local/bin/advcp -g"
+alias mv="/usr/local/bin/advmv -g"
 
 alias dc="docker compose"
 
