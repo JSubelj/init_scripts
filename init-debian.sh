@@ -42,13 +42,13 @@ install_advcp() {
     /bin/cp advcp advmv /usr/local/bin  
     cd -
     /bin/rm -rf /tmp/advcpmv
-    apt --purge autoremove patch gcc 
+    apt --purge autoremove patch gcc build-essential
 }
 
 # Function to install necessary packages
 install_packages() {
     $sudo_prefix apt update
-    $sudo_prefix apt install -y vim sudo zsh git curl rsync unzip python-is-python3 patch gcc
+    $sudo_prefix apt install -y vim sudo zsh git curl rsync unzip python-is-python3 patch gcc build-essential
     install_advcp
     echo "Package install done"
     echo ""
