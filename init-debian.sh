@@ -148,6 +148,7 @@ install_rcs() {
     echo "EMAIL='$email_address'" >> $install_folder/.scripts/.zshrc_init
     echo ". $install_folder/.scripts/.zshrc_init" >> $install_folder/.zshrc
     sed -i "s/^ZSH_THEME=.*/ZSH_THEME='alanpeabody'/" $install_folder/.zshrc
+    sed -i '1i DISABLE_UPDATE_PROMPT=true' $install_folder/.zshrc
     echo "Script completed successfully."
     echo ""
 }
