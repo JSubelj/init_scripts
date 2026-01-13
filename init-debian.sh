@@ -39,7 +39,7 @@ get_email(){
 
 install_advcp() {
     curl https://raw.githubusercontent.com/jarun/advcpmv/master/install.sh --create-dirs -o /tmp/advcpmv/install.sh && (cd /tmp/advcpmv && FORCE_UNSAFE_CONFIGURE=1 sh install.sh)
-    /bin/cp advcp advmv /usr/local/bin  
+    /bin/cp /tmp/advcpmv/advcp /tmp/advcpmv/advmv /usr/local/bin  
     cd -
     /bin/rm -rf /tmp/advcpmv
     $sudo_prefix apt --purge autoremove patch gcc build-essential
