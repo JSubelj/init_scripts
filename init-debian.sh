@@ -182,6 +182,18 @@ install_rcs() {
     echo ""
 }
 
+ssh_config(){
+    echo "Share needs to be enabled!"
+    echo "Copies CA cert to ssh and enables it in ssh config"
+    if [ -f "/share/ssh_signing/cleptes_ssh_ca.pub" ]; then
+        $sudo_prefix cp /share/ssh_signing/cleptes_ssh_ca.pub /ssh
+        CERT_LINE="TrustedUserCAKeys /etc/ssh/cleptes_ssh_ca.pub"
+        grep -qxF "$CERT_LINE" "/etc/ssh/sshd_config" || echo "$CERT_LINE" | sudo tee -a "/etc/ssh/sshd_config" > /dev/null
+    else
+        echo "Cant find /share/ssh_signing/cleptes_ssh_ca.pub"
+    fi
+}
+
 undo_fstab(){
     if [ -f "$install_folder/.scripts/old/fstab" ]; then
         $sudo_prefix cp $install_folder/.scripts/old/fstab /etc/fstab
@@ -215,18 +227,20 @@ select opt in "${options[@]}"; do
         4) install_and_configure_zsh;;
         5) install_rcs;;
         6) enable_nfs_share;;
-        7) 
+        7) ssh_config;;
+        8) 
             install_packages
             configure_email
             configure_unattended_upgrades
             enable_nfs_share
             install_rcs
             install_and_configure_zsh
+            ssh_config
             exit 0;;
-        8) undo_fstab;;
-        9) undo_postfix_main.cf;;
-        10) undo_50unattended-upgrades;;
-        11) exit 0;;
+        9) undo_fstab;;
+        10) undo_postfix_main.cf;;
+        11) undo_50unattended-upgrades;;
+        12) exit 0;;
         
         *) echo "Invalid option";;
     esac
