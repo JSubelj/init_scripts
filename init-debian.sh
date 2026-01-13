@@ -219,7 +219,7 @@ undo_50unattended-upgrades(){
 mkscriptsdir
 
 # Main script
-PS3="Select a function to run (or '7' to run all or '11' to exit): "
+PS3="Select a function to run (or '8' to run all or '12' to exit): "
 options=("Install Packages - idempotent" "Configure Email" "Configure Unattended Upgrades - idempotent" "Install and Configure Zsh" "Install_rcs - idempotent " "Enable Nfs Share - idempotent" "ssh_config - idempotent" "Run all" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit")
 select opt in "${options[@]}"; do
     case $REPLY in
