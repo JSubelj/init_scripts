@@ -218,7 +218,7 @@ mkscriptsdir
 
 # Main script
 PS3="Select a function to run (or '7' to run all or '11' to exit): "
-options=("Install Packages" "Configure Email" "Configure Unattended Upgrades" "Install and Configure Zsh" "Install_rcs" "Enable Nfs Share" "Run all" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit")
+options=("Install Packages" "Configure Email" "Configure Unattended Upgrades" "Install and Configure Zsh" "Install_rcs" "Enable Nfs Share" "ssh_config" "Run all" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit")
 select opt in "${options[@]}"; do
     case $REPLY in
         1) install_packages;;
