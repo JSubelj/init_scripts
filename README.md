@@ -6,7 +6,7 @@ wget https://raw.githubusercontent.com/JSubelj/init_scripts/main/init-debian-pre
 ```
 and then
 ```
-wget https://raw.githubusercontent.com/JSubelj/init_scripts/main/init-debian.sh -O init-debian.sh && chmod +x ./init-debian.sh && ./init-debian.sh; rm ./init-debian.sh; rm ./init-debian-pre.sh; . ~/.zshrc
+wget https://raw.githubusercontent.com/JSubelj/init_scripts/main/init-debian.sh -O init-debian.sh && chmod +x ./init-debian.sh && ./init-debian.sh; /bin/rm ./init-debian.sh; /bin/rm ./init-debian-pre.sh; . ~/.zshrc
 ```
 
 You may need sudo
