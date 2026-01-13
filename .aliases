@@ -13,9 +13,10 @@ alias ka="killall"
 alias g="git" 
 alias mkd="mkdir -pv" 
 alias cpuinfo="cat /proc/cpuinfo"
-# because of oh my zsh
-unalias gcp 2>/dev/null
-alias cp="gcp"
+
+alias cp="advcp"
+alias mv="advmv"
+
 alias dc="docker compose"
 
 # hdd test
