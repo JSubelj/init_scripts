@@ -38,17 +38,24 @@ get_email(){
 }
 
 install_advcp() {
-    curl https://raw.githubusercontent.com/jarun/advcpmv/master/install.sh --create-dirs -o /tmp/advcpmv/install.sh && (cd /tmp/advcpmv && FORCE_UNSAFE_CONFIGURE=1 sh install.sh)
-    /bin/cp /tmp/advcpmv/advcp /tmp/advcpmv/advmv /usr/local/bin  
-    cd -
-    /bin/rm -rf /tmp/advcpmv
-    $sudo_prefix apt --purge autoremove -y patch gcc build-essential
+    if [ -d /share/advcpmv ]; then
+      echo "Using precompiled advcpmv binary from /share"
+      /bin/cp /share/advcpmv/* /usr/local/bin
+    else
+      echo "Building advcpmv binary"
+        $sudo_prefix apt install -y patch gcc build-essential
+        curl https://raw.githubusercontent.com/jarun/advcpmv/master/install.sh --create-dirs -o /tmp/advcpmv/install.sh && (cd /tmp/advcpmv && FORCE_UNSAFE_CONFIGURE=1 sh install.sh)
+        /bin/cp /tmp/advcpmv/advcp /tmp/advcpmv/advmv /usr/local/bin  
+        cd -
+        /bin/rm -rf /tmp/advcpmv
+        $sudo_prefix apt --purge autoremove -y patch gcc build-essential gcp # removing gcp because legacy
+    fi   
 }
 
 # Function to install necessary packages
 install_packages() {
     $sudo_prefix apt update
-    $sudo_prefix apt install -y vim sudo zsh git curl rsync unzip python-is-python3 patch gcc build-essential
+    $sudo_prefix apt install -y vim sudo zsh git curl rsync unzip python-is-python3 
     install_advcp
     echo "Package install done"
     echo ""
