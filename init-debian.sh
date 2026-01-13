@@ -188,6 +188,7 @@ ssh_config(){
         $sudo_prefix cp /share/ssh_signing/cleptes_ssh_ca.pub /ssh
         CERT_LINE="TrustedUserCAKeys /etc/ssh/cleptes_ssh_ca.pub"
         grep -qxF "$CERT_LINE" "/etc/ssh/sshd_config" || echo "$CERT_LINE" | sudo tee -a "/etc/ssh/sshd_config" > /dev/null
+        systemctl restart sshd
         echo "Done!"
     else
         echo "Share needs to be enabled!"
