@@ -42,7 +42,7 @@ install_advcp() {
     /bin/cp advcp advmv /usr/local/bin  
     cd -
     /bin/rm -rf /tmp/advcpmv
-    apt --purge autoremove patch gcc build-essential
+    $sudo_prefix apt --purge autoremove patch gcc build-essential
 }
 
 # Function to install necessary packages
