@@ -59,9 +59,9 @@ install_advcp() {
 install_packages() {
     $sudo_prefix apt update
     $sudo_prefix apt install -y vim sudo zsh git curl rsync unzip python-is-python3 
-    echo
+    echo ""
     install_advcp
-    echo
+    echo ""
     echo "Package install done"
     echo ""
 }
