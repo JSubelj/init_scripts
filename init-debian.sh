@@ -37,10 +37,18 @@ get_email(){
     echo ""
 }
 
+install_advcp() {
+    curl https://raw.githubusercontent.com/jarun/advcpmv/master/install.sh --create-dirs -o /tmp/advcpmv/install.sh && (cd /tmp/advcpmv && FORCE_UNSAFE_CONFIGURE=1 sh install.sh)
+    /bin/cp advcp advmv /usr/local/bin  
+    cd -
+    /bin/rm -rf /tmp/advcpmv
+}
+
 # Function to install necessary packages
 install_packages() {
     $sudo_prefix apt update
-    $sudo_prefix apt install -y vim sudo zsh git curl rsync gcp unzip python-is-python3
+    $sudo_prefix apt install -y vim sudo zsh git curl rsync unzip python-is-python3
+    install_advcp
     echo "Package install done"
     echo ""
 }
