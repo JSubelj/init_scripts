@@ -38,6 +38,10 @@ get_email(){
 }
 
 install_advcp() {
+    if [ -f "/usr/local/bin/advcp" ] && [ -f "/usr/local/bin/advmv" ]; then
+        echo "advcp and advmv are already installed in /usr/local/bin. Skipping..."
+        return 0
+    fi
     if [ -d /share/advcpmv ]; then
       echo "Using precompiled advcpmv binary from /share"
       $sudo_prefix /bin/cp /share/advcpmv/* /usr/local/bin
