@@ -42,6 +42,7 @@ install_advcp() {
     /bin/cp advcp advmv /usr/local/bin  
     cd -
     /bin/rm -rf /tmp/advcpmv
+    apt --purge autoremove patch gcc 
 }
 
 # Function to install necessary packages
