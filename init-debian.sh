@@ -141,14 +141,33 @@ install_rcs() {
     echo "If you want to add scripts that are in your path, add them to .scripts/bin"
     echo "If you want additional rc commands to run, add them to ~/.script/.zshrc_ext"
 
-    curl https://raw.githubusercontent.com/JSubelj/init_scripts/main/.aliases -o $install_folder/.scripts/.aliases
-    curl https://raw.githubusercontent.com/JSubelj/init_scripts/main/.zshrc_init -o $install_folder/.scripts/.zshrc_init
-    touch $install_folder/.scripts/.zshrc_ext
+    # Ensure directories exist
+    mkdir -p "$install_folder/.scripts"
 
-    echo "EMAIL='$email_address'" >> $install_folder/.scripts/.zshrc_init
-    echo ". $install_folder/.scripts/.zshrc_init" >> $install_folder/.zshrc
-    sed -i "s/^ZSH_THEME=.*/ZSH_THEME='alanpeabody'/" $install_folder/.zshrc
-    sed -i '1i DISABLE_UPDATE_PROMPT=true' $install_folder/.zshrc
+    curl -s https://raw.githubusercontent.com/JSubelj/init_scripts/main/.aliases -o "$install_folder/.scripts/.aliases"
+    curl -s https://raw.githubusercontent.com/JSubelj/init_scripts/main/.zshrc_init -o "$install_folder/.scripts/.zshrc_init"
+    touch "$install_folder/.scripts/.zshrc_ext"
+
+    # 1. Update EMAIL in .zshrc_init (Overwrites/Updates instead of appending)
+    if grep -q "EMAIL=" "$install_folder/.scripts/.zshrc_init"; then
+        sed -i "s|^EMAIL=.*|EMAIL='$email_address'|" "$install_folder/.scripts/.zshrc_init"
+    else
+        echo "EMAIL='$email_address'" >> "$install_folder/.scripts/.zshrc_init"
+    fi
+
+    # 2. Source the init script in .zshrc (Append if missing)
+    LINE_TO_SOURCE=". $install_folder/.scripts/.zshrc_init"
+    grep -qxF "$LINE_TO_SOURCE" "$install_folder/.zshrc" || echo "$LINE_TO_SOURCE" >> "$install_folder/.zshrc"
+
+    # 3. Update ZSH_THEME (Standard sed replacement is usually safe to run twice)
+    sed -i "s/^ZSH_THEME=.*/ZSH_THEME='alanpeabody'/" "$install_folder/.zshrc"
+
+    # 4. Add DISABLE_UPDATE_PROMPT to the beginning (if missing)
+    DISABLE_LINE='DISABLE_UPDATE_PROMPT=true'
+    if ! grep -qxF "$DISABLE_LINE" "$install_folder/.zshrc"; then
+        sed -i "1i $DISABLE_LINE" "$install_folder/.zshrc"
+    fi
+
     echo "Script completed successfully."
     echo ""
 }
