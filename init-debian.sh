@@ -154,8 +154,8 @@ install_rcs() {
     # Ensure directories exist
     mkdir -p "$install_folder/.scripts"
 
-    curl -s https://raw.githubusercontent.com/JSubelj/init_scripts/main/.aliases -o "$install_folder/.scripts/.aliases"
-    curl -s https://raw.githubusercontent.com/JSubelj/init_scripts/main/.zshrc_init -o "$install_folder/.scripts/.zshrc_init"
+    /bin/rm -rf "$install_folder/.scripts/.aliases" && curl -s https://raw.githubusercontent.com/JSubelj/init_scripts/main/.aliases -o "$install_folder/.scripts/.aliases"
+    /bin/rm -rf "$install_folder/.scripts/.zshrc_init" && curl -s https://raw.githubusercontent.com/JSubelj/init_scripts/main/.zshrc_init -o "$install_folder/.scripts/.zshrc_init"
     touch "$install_folder/.scripts/.zshrc_ext"
 
     # 1. Update EMAIL in .zshrc_init (Overwrites/Updates instead of appending)
