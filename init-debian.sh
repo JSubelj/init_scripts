@@ -37,6 +37,14 @@ get_email(){
     echo ""
 }
 
+build_and_install_advcp() {
+    $sudo_prefix apt install -y patch gcc build-essential
+    curl https://raw.githubusercontent.com/jarun/advcpmv/master/install.sh --create-dirs -o /tmp/advcpmv/install.sh && (cd /tmp/advcpmv && FORCE_UNSAFE_CONFIGURE=1 sh install.sh)
+    $sudo_prefix /bin/cp /tmp/advcpmv/advcp /tmp/advcpmv/advmv /usr/local/bin  
+    /bin/rm -rf /tmp/advcpmv
+    $sudo_prefix apt --purge autoremove -y patch gcc build-essential gcp # removing gcp because legacy
+}
+
 install_advcp() {
     if [ -f "/usr/local/bin/advcp" ] && [ -f "/usr/local/bin/advmv" ]; then
         echo "advcp and advmv are already installed in /usr/local/bin. Skipping..."
@@ -47,11 +55,7 @@ install_advcp() {
       $sudo_prefix /bin/cp /share/advcpmv/* /usr/local/bin
     else
       echo "Building advcpmv binary"
-        $sudo_prefix apt install -y patch gcc build-essential
-        curl https://raw.githubusercontent.com/jarun/advcpmv/master/install.sh --create-dirs -o /tmp/advcpmv/install.sh && (cd /tmp/advcpmv && FORCE_UNSAFE_CONFIGURE=1 sh install.sh)
-        $sudo_prefix /bin/cp /tmp/advcpmv/advcp /tmp/advcpmv/advmv /usr/local/bin  
-        /bin/rm -rf /tmp/advcpmv
-        $sudo_prefix apt --purge autoremove -y patch gcc build-essential gcp # removing gcp because legacy
+      build_and_install_advcp
     fi   
 }
 
@@ -221,8 +225,8 @@ undo_50unattended-upgrades(){
 mkscriptsdir
 
 # Main script
-PS3="Select a function to run (or '8' to run all or '12' to exit): "
-options=("Install Packages - idempotent" "Configure Email" "Configure Unattended Upgrades - idempotent" "Install and Configure Zsh" "Install_rcs - idempotent " "Enable Nfs Share - idempotent" "ssh_config - idempotent" "Run all" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "Exit")
+PS3="Select a function to run (or '8' to run all or '13' to exit): "
+options=("Install Packages - idempotent" "Configure Email" "Configure Unattended Upgrades - idempotent" "Install and Configure Zsh" "Install_rcs - idempotent " "Enable Nfs Share - idempotent" "ssh_config - idempotent" "Run all" "Undo fstab changes" "Undo postfix main.cf changes" "Undo unattended-upgrades changes" "build_and_install_advcp" "Exit")
 select opt in "${options[@]}"; do
     case $REPLY in
         1) install_packages;;
@@ -244,7 +248,8 @@ select opt in "${options[@]}"; do
         9) undo_fstab;;
         10) undo_postfix_main.cf;;
         11) undo_50unattended-upgrades;;
-        12) exit 0;;
+        12) build_and_install_advcp;;
+        13) exit 0;;
         
         *) echo "Invalid option";;
     esac
